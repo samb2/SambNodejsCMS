@@ -1,0 +1,24 @@
+{
+  "name": "sambnodejscms",
+  "version": "1.0.0",
+  "description": "This project is tutorial of NodeJS &amp; ExpressJS &amp; MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build" : "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com//samb2/SambNodejsCMS.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "Expressjs",
+    "MongoDB"
+  ],
+  "author": "Samb2",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
