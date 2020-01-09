@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const validator = require('express-validator');
+//const validator = require('express-validator');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
@@ -16,12 +16,20 @@ module.exports = class Application {
 
     constructor() {
         this.setupExpress();
+        this.setupMongoDB().then(() => console.log("connecting to MongoDB Successfully!!!"));
         this.setConfig();
     }
 
     setupExpress() {
         const server = http.createServer(app);
         server.listen(3000, () => console.log('listening on port 3000'));
+    }
+
+    async setupMongoDB() {
+        await mongoose.connect('mongodb://localhost/sambnodejscms', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
     }
 
     setConfig() {
@@ -35,14 +43,12 @@ module.exports = class Application {
         //body-parser used for access to req.body
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
-        //Set validator middleware
-        app.use(validator);
         //Set session middleware
         app.use(session({
-            secret : 'mysecretkey',
-            resave : true,
-            saveUninitialized : true,
-            store : new MongoStore({ mongooseConnection : mongoose.connection })
+            secret: 'mysecretkey',
+            resave: true,
+            saveUninitialized: true,
+            store: new MongoStore({mongooseConnection: mongoose.connection})
         }));
         //Set cookie-parser
         app.use(cookieParser('mysecretkey'));
