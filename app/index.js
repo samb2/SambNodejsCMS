@@ -6,7 +6,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const validator = require('express-validator');
 const session = require('express-session');
-const mongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const passport = require('passport');
@@ -35,6 +35,19 @@ module.exports = class Application {
         //body-parser used for access to req.body
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
+        //Set validator middleware
+        app.use(validator);
+        //Set session middleware
+        app.use(session({
+            secret : 'mysecretkey',
+            resave : true,
+            saveUninitialized : true,
+            store : new MongoStore({ mongooseConnection : mongoose.connection })
+        }));
+        //Set cookie-parser
+        app.use(cookieParser('mysecretkey'));
+        //Set flash Message
+        app.use(flash());
 
         app.get('/', (req, res) => {
             res.json('Hello World');
