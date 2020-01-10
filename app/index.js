@@ -18,6 +18,7 @@ module.exports = class Application {
         this.setupExpress();
         this.setupMongoDB().then(() => console.log("connecting to MongoDB Successfully!!!"));
         this.setConfig();
+        this.setRouters();
     }
 
     setupExpress() {
@@ -55,8 +56,10 @@ module.exports = class Application {
         //Set flash Message
         app.use(flash());
 
-        app.get('/', (req, res) => {
-            res.json('Hello World');
-        });
+    }
+
+    setRouters() {
+        app.use(require('app/routes/api'));
+        app.use(require('app/routes/web'));
     }
 };
