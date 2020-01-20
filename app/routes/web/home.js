@@ -6,7 +6,7 @@ const homeController = require('app/http/controllers/HomeController');
 
 
 // Home Routes
-router.get('/' , homeController.index);
+router.get('/', homeController.index);
 
 
 module.exports = router;

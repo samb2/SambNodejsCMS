@@ -2,11 +2,11 @@ const controller = require('app/http/controllers/Controller');
 
 class HomeController extends controller {
 
-    index(req , res){
-        res.json('Home Page!');
+    index(req, res) {
+        res.render('index');
     }
 
-    message(){
+    message() {
         return 'Home Page!'
     }
 
