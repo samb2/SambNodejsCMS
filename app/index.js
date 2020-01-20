@@ -38,7 +38,7 @@ module.exports = class Application {
         //Define Static path
         app.use(express.static('public'));
         //Set view Engine
-        app.set('view engine', 'pug');
+        app.set('view engine', 'ejs');
         //Set view Route in project
         app.set('views', path.resolve('./resource/views'));
         //body-parser used for access to req.body
