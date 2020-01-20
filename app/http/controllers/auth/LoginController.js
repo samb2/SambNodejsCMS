@@ -3,7 +3,7 @@ const controller = require('app/http/controllers/Controller');
 class LoginController {
 
     login(req, res) {
-        res.render('login');
+        res.render('loginPage');
     }
 }
 
