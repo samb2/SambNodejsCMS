@@ -1,8 +1,8 @@
 const controller = require('app/http/controllers/Controller');
 
-class LoginController {
+class LoginController extends controller {
 
-    login(req, res) {
+    showLogin(req, res) {
         res.render('loginPage');
     }
 }
