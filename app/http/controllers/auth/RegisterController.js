@@ -32,34 +32,28 @@ class RegisterController extends controller {
             errors.errors.forEach(result => {
                 //messages.firstname(result.msg);
                 if (result.param === 'firstName') {
-                    if (messages.firstName === '' || messages.firstName === 'ok') {
-                        messages.firstName = result.msg;
-                    }
+                    messages.firstName = result.msg;
 
                 } else if (result.param === 'lastName') {
-                    if (messages.lastName === '' || messages.lastName === 'ok') {
-                        messages.lastName = result.msg;
-                    }
+                    messages.lastName = result.msg;
 
                 } else if (result.param === 'userName') {
-                    if (messages.userName === '' || messages.userName === 'ok') {
-                        messages.userName = result.msg;
-                    }
+                    messages.userName = result.msg;
 
                 } else if (result.param === 'email') {
-                    if (messages.email === '' || messages.email === 'ok') {
-                        messages.email = result.msg;
-                    }
+                    messages.email = result.msg;
 
                 } else if (result.param === 'password') {
-                    if (messages.password === '' || messages.password === 'ok') {
-                        messages.password = result.msg;
-                    }
+                    messages.password = result.msg;
 
                 } else if (result.param === 'confirmPassword') {
-                    if (messages.confirmPassword === '' || messages.confirmPassword === 'ok') {
+                    if (messages.password !== 'ok') {
                         messages.confirmPassword = result.msg;
+                    } else {
+                        messages.confirmPassword = result.msg;
+                        messages.password = 'reEnter password';
                     }
+
                 }
             });
 
