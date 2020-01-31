@@ -1,80 +1,42 @@
 const controller = require('app/http/controllers/Controller');
-const {validationResult} = require('express-validator');
+
+const validator = require('app/validate/validator');
 
 let messages = {
-    'firstName': '',
-    'lastName': '',
-    'userName': '',
-    'email': '',
-    'password': '',
-    'confirmPassword': '',
+    'firstName': {value: '', error: ''},
+    'lastName': {value: '', error: ''},
+    'userName': {value: '', error: ''},
+    'email': {value: '', error: ''},
+    'password': {value: '', error: ''},
+    'confirmPassword': {value: '', error: ''},
 };
+
 
 class RegisterController extends controller {
 
+    //GET register process
     showRegister(req, res) {
-        res.render('register', {messages});
-        this.validateMessage('');
+        res.render('register', {messages, captcha: this.recaptcha.render()});
+        messages = validator.validateErrorMessage('');
     }
 
-    registerProccess(req, res) {
-        if (this.validator(req)) {
-            res.redirect('/register');
+    //POST register proccess
+    registerProcess(req, res) {
+
+        if (validator.validate(req, message => {
+            messages = message;
+        })) {
+            res.render('register', {messages, captcha: this.recaptcha.render()});
         } else {
-            res.json('register done!');
-        }
-    }
-
-    validator(req) {
-        this.validateMessage('ok');
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            errors.errors.forEach(result => {
-                //messages.firstname(result.msg);
-                if (result.param === 'firstName') {
-                    messages.firstName = result.msg;
-
-                } else if (result.param === 'lastName') {
-                    messages.lastName = result.msg;
-
-                } else if (result.param === 'userName') {
-                    messages.userName = result.msg;
-
-                } else if (result.param === 'email') {
-                    messages.email = result.msg;
-
-                } else if (result.param === 'password') {
-                    messages.password = result.msg;
-
-                } else if (result.param === 'confirmPassword') {
-                    if (messages.password !== 'ok') {
-                        messages.confirmPassword = result.msg;
-                    } else {
-                        messages.confirmPassword = result.msg;
-                        messages.password = 'reEnter password';
-                    }
-
+            this.recaptcha.verify(req, function (error, data) {
+                if (error == null) {
+                    res.json('register done!');
+                } else {
+                    res.redirect('/register');
                 }
             });
-
-            return true;
-
-        } else {
-            return false;
         }
     }
-
-    validateMessage(message) {
-        messages = {
-            'firstName': message,
-            'lastName': message,
-            'userName': message,
-            'email': message,
-            'password': message,
-            'confirmPassword': message,
-        };
-    }
-
 }
 
 module.exports = new RegisterController();

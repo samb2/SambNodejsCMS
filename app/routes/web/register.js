@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const {check, body} = require('express-validator');
-
 const registerController = require('app/http/controllers/auth/RegisterController');
 router.get('/', registerController.showRegister);
 router.post('/', [
@@ -23,6 +22,6 @@ router.post('/', [
         }
         return true;
     })
-], registerController.registerProccess);
+], registerController.registerProcess);
 
 module.exports = router;
