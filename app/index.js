@@ -54,6 +54,9 @@ module.exports = class Application {
         app.use(cookieParser('mysecretkey'));
         //Set flash Message
         app.use(flash());
+        app.use(passport.initialize());
+        app.use(passport.session());
+        require('app/passport/passport-local');
 
     }
 
