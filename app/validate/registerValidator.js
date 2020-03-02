@@ -9,7 +9,7 @@ let messages = {
     'confirmPassword': {value: '', error: ''},
 };
 
-class Validator {
+class RegisterValidator {
 
     validate(req, message) {
         this.validateValueMessage(req);
@@ -70,4 +70,4 @@ class Validator {
     }
 }
 
-module.exports = new Validator();
+module.exports = new RegisterValidator();

@@ -1,5 +1,5 @@
 const controller = require('app/http/controllers/Controller');
-const validator = require('app/validate/validator');
+const validator = require('app/validate/registerValidator');
 const passport = require('passport');
 
 class RegisterController extends controller {

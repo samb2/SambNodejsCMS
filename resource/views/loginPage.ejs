@@ -5,13 +5,44 @@
             <div class="card border-success bg-light mb-3 mt-5" style="max-width: 100%;">
                 <div class="card-header"><h2>Login</h2></div>
                 <div class="card-body">
-                    <form action="/register"></form>
-
+                    <form action="/login" method="post" novalidate>
+                        <div class="col-md-12 order-md-1">
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="username">Username</label>
+                                    <div class="input-group">
+                                        <input type="text"
+                                               class="form-control"
+                                               id="username"
+                                               name="userName">
+                                        <div class="invalid-feedback" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label for="password">Password</label>
+                                    <input type="password"
+                                           class="form-control"
+                                           id="password"
+                                           name="password">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="col-md-12 mb-3">
+                                    <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+                                </div>
+                                <div>
+                                    <%= errors %>
+                                </div>
+                                <div class="col-md-12 mb-3 text-center">
+                                    <button class="btn btn-primary btn-lg">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="card-footer bg-transparent border-success">Footer</div>
             </div>
         </div>
     </div>
 </div>
-
+<%- captcha -%>
 <%- include('./layout/footer'); -%>

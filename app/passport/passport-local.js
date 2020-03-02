@@ -19,7 +19,6 @@ passport.use('local.register', new localStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, (req, userName, password, done) => {
-    //console.log(userName, password);
     User.findOne({'userName': userName}, (err, user) => {
         if (err) return done(err);
         if (user) return done(null, false, req.flash('errors', 'چنین کاربری قبلا در سایت ثبت نام کرده است'));
@@ -37,5 +36,22 @@ passport.use('local.register', new localStrategy({
             done(null, newUser);
         });
 
+    })
+}));
+
+
+passport.use('local.login' , new localStrategy({
+    usernameField : 'userName',
+    passwordField : 'password',
+    passReqToCallback : true
+} , (req , userName ,  password , done) => {
+    User.findOne({ 'userName' : userName } , (err , user) => {
+        if(err) return done(err);
+
+        if(! user || ! user.comparePassword(password)) {
+            return done(null , false , req.flash('errors' , 'اطلاعات وارد شده مطابقت ندارد'));
+        }
+
+        done(null , user);
     })
 }));
