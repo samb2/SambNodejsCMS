@@ -2,10 +2,9 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const http = require('http');
-const path = require('path');
+
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const passport = require('passport');
@@ -23,12 +22,13 @@ module.exports = class Application {
 
     setupExpress() {
         const server = http.createServer(app);
-        server.listen(3000, () => console.log('listening on port 3000'));
+        server.listen(config.port, () => console.log(`listening on port ${config.port}`));
     }
 
     async setupMongoDB() {
-        await mongoose.connect('mongodb://localhost/sambnodejscms', {
+        await mongoose.connect(config.database.url, {
             useNewUrlParser: true,
+            useCreateIndex: true,
             useUnifiedTopology: true
         });
     }
@@ -38,24 +38,18 @@ module.exports = class Application {
         require('app/passport/passport-local');
 
         //Define Static path
-        app.use(express.static('public'));
+        app.use(express.static(config.layout.public_dir));
         //Set view Engine
-        app.set('view engine', 'ejs');
+        app.set('view engine', config.layout.view_engine);
         //Set view Route in project
-        app.set('views', path.resolve('./resource/views'));
+        app.set('views', config.layout.view_dir);
         //body-parser used for access to req.body
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
         //Set session middleware
-        app.use(session({
-            secret: 'mysecretkey',
-            resave: true,
-            saveUninitialized: true,
-            cookie: {expires: new Date(Date.now() + 1000 * 60 * 60 * 6)},
-            store: new MongoStore({mongooseConnection: mongoose.connection})
-        }));
+        app.use(session({...config.session}));
         //Set cookie-parser
-        app.use(cookieParser('mysecretkey'));
+        app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
         //Set flash Message
         app.use(flash());
         app.use(passport.initialize());

@@ -11,8 +11,8 @@ module.exports = class Controller {
 
     recaptchaConfig() {
         this.recaptcha = new Recaptcha(
-            '6Le3-9MUAAAAANqdAU17btPHHuDU_3gkcSuVbGD-',
-            '6Le3-9MUAAAAADGpNtyiGi9ooDM9xOZx5SwK5Idk',
+            config.service.recaptcha.client_key,
+            config.service.recaptcha.secret_key,
             {
                 callback: function (token) {
                     document.getElementById('g-recaptcha-response').value = token;

@@ -5,7 +5,7 @@ const uniqueString = require('unique-string');
 const userSchema = mongoose.Schema({
     firstName: {type: String, require: true},
     lastName: {type: String, require: true},
-    userName: {type: String, require: true},
+    userName: {type: String, unique: true, require: true},
     email: {type: String, unique: true, require: true},
     password: {type: String, require: true},
     admin: {type: Boolean, default: 0},
