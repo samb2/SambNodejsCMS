@@ -5,15 +5,14 @@ const passport = require('passport');
 class LoginController extends controller {
 
     showLogin(req, res) {
-        res.render('loginPage', {errors : req.flash('errors'), captcha: this.recaptcha.render()});
+        res.render('loginPage', {errors: req.flash('errors'), captcha: this.recaptcha.render()});
     }
 
     loginProcess(req, res, next) {
         if (validator.validate(req, message => {
             messages = message;
-            console.log(messages);
         })) {
-            res.render('loginPage', {errors : req.flash('errors'), captcha: this.recaptcha.render()});
+            res.render('loginPage', {errors: req.flash('errors'), captcha: this.recaptcha.render()});
         } else {
 
             this.recaptchaVerify(req, res)
@@ -21,7 +20,6 @@ class LoginController extends controller {
                     if (result) {
                         this.login(req, res, next);
                     } else {
-                        console.log('recaptcha error');
                         res.redirect('/login');
                     }
                 })
@@ -30,10 +28,18 @@ class LoginController extends controller {
     }
 
     login(req, res, next) {
-        passport.authenticate('local.login', {
-            successRedirect: '/',
-            failureRedirect: '/login',
-            failureFlash: true
+        passport.authenticate('local.login', (err, user) => {
+            if (!user) {
+                console.log('not exist');
+                return res.redirect('/login');
+            }
+
+            req.logIn(user, err => {
+                if (req.body.remember) {
+                    user.setRememberToken(res);
+                }
+                return res.redirect('/');
+            });
         })(req, res, next);
     }
 

@@ -9,7 +9,8 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const passport = require('passport');
-
+const helpers = require('./helpers');
+const rememberLogin = require('app/http/middleware/rememberLogin');
 
 module.exports = class Application {
 
@@ -34,6 +35,8 @@ module.exports = class Application {
 
     setConfig() {
 
+        require('app/passport/passport-local');
+
         //Define Static path
         app.use(express.static('public'));
         //Set view Engine
@@ -48,7 +51,7 @@ module.exports = class Application {
             secret: 'mysecretkey',
             resave: true,
             saveUninitialized: true,
-            cookie : {  expires : new Date(Date.now() + 1000 * 60 * 60 * 6)},
+            cookie: {expires: new Date(Date.now() + 1000 * 60 * 60 * 6)},
             store: new MongoStore({mongooseConnection: mongoose.connection})
         }));
         //Set cookie-parser
@@ -57,7 +60,12 @@ module.exports = class Application {
         app.use(flash());
         app.use(passport.initialize());
         app.use(passport.session());
-        require('app/passport/passport-local');
+        app.use(rememberLogin.handle);
+        app.use((req, res, next) => {
+            app.locals = new helpers(req, res).getObjects();
+            next();
+        });
+
 
     }
 

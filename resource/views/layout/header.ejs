@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="/css/font.css">
     <link rel="stylesheet" href="/css/home.css">
 </head>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="/">SambNodejsCMS</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +26,12 @@
                 <a class="nav-link" href="/about">About</a>
             </li>
         </ul>
-        <a class="btn btn-sm btn-outline-light mr-2" href="login">Login</a>
-        <a class="btn btn-sm btn-outline-success" href="register">Sign up</a>
+        <% if (auth.check) { %>
+            <a class="btn btn-sm btn-light mr-2" href="panel">Panel</a>
+            <a class="btn btn-sm btn-danger" href="logout">Exit</a>
+        <% } else { %>
+            <a class="btn btn-sm btn-outline-light mr-2" href="login">Login</a>
+            <a class="btn btn-sm btn-outline-success" href="register">Sign up</a>
+        <% } %>
     </div>
 </nav>

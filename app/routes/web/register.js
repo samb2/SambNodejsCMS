@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const {check, body} = require('express-validator');
 const registerController = require('app/http/controllers/auth/RegisterController');
-router.get('/', registerController.showRegister);
+// Middlewares
+const redirectIfAuthenticated = require('app/http/middleware/redirectIfAuthenticated');
+
+router.get('/', redirectIfAuthenticated.handle, registerController.showRegister);
 router.post('/', [
     check('firstName', 'First name is required.').not().isEmpty().bail()
         .not().isNumeric().withMessage('Valid first name is required.'),
@@ -22,6 +25,6 @@ router.post('/', [
         }
         return true;
     })
-], registerController.registerProcess);
+], redirectIfAuthenticated.handle, registerController.registerProcess);
 
 module.exports = router;
