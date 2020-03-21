@@ -28,8 +28,7 @@ module.exports = class Controller {
                 if (error == null) {
                     resolve(true);
                 } else {
-                    //res.redirect('/register');
-                    res.redirect(req.url);
+                    res.redirect('/register');
                 }
             });
         });

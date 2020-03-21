@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const http = require('http');
-
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -10,6 +9,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const helpers = require('./helpers');
 const rememberLogin = require('app/http/middleware/rememberLogin');
+const expressLayouts = require('express-ejs-layouts');
 
 module.exports = class Application {
 
@@ -43,6 +43,8 @@ module.exports = class Application {
         app.set('view engine', config.layout.view_engine);
         //Set view Route in project
         app.set('views', config.layout.view_dir);
+        app.use(expressLayouts);
+
         //body-parser used for access to req.body
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
