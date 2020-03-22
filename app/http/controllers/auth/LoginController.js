@@ -12,7 +12,7 @@ class LoginController extends controller {
             messages.password.value = 'user name or password is incorrect';
         }
 
-        res.render('loginPage', {messages, captchaError: req.flash('captchaError'), captcha: this.recaptcha.render()});
+        res.render('auth/loginPage', {messages, captchaError: req.flash('captchaError'), captcha: this.recaptcha.render()});
     }
 
     async loginProcess(req, res, next) {
@@ -24,7 +24,7 @@ class LoginController extends controller {
         let validate = await validator.validate(req);
         if (validate !== false) { //validation have Error
             messages = validate;
-            res.render('loginPage', {
+            res.render('auth/loginPage', {
                 messages,
                 captchaError: req.flash('captchaError'),
                 captcha: this.recaptcha.render()

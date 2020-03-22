@@ -40,18 +40,18 @@ passport.use('local.register', new localStrategy({
 }));
 
 
-passport.use('local.login' , new localStrategy({
-    usernameField : 'userName',
-    passwordField : 'password',
-    passReqToCallback : true
-} , (req , userName ,  password , done) => {
-    User.findOne({ 'userName' : userName } , (err , user) => {
-        if(err) return done(err);
+passport.use('local.login', new localStrategy({
+    usernameField: 'userName',
+    passwordField: 'password',
+    passReqToCallback: true
+}, (req, userName, password, done) => {
+    User.findOne({'userName': userName}, (err, user) => {
+        if (err) return done(err);
 
-        if(! user || ! user.comparePassword(password)) {
-            return done(null , false , req.flash('error' , 'error'));
+        if (!user || !user.comparePassword(password)) {
+            return done(null, false, req.flash('error', 'error'));
         }
 
-        done(null , user);
+        done(null, user);
     })
 }));

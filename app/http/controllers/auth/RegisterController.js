@@ -15,7 +15,7 @@ class RegisterController extends controller {
             messages.userName.error = 'Username Already taken';
         }
         // Show register Form
-        res.render('register', {messages, captchaError: req.flash('captchaError'), captcha: this.recaptcha.render()});
+        res.render('auth/register', {messages, captchaError: req.flash('captchaError'), captcha: this.recaptcha.render()});
     }
 
     //POST register process
@@ -28,7 +28,7 @@ class RegisterController extends controller {
         let validate = await validator.validate(req);
         if (validate !== false) { //validation have Error
             messages = validate;
-            res.render('register', {
+            res.render('auth/register', {
                 messages,
                 captchaError: req.flash('captchaError'),
                 captcha: this.recaptcha.render()
@@ -42,7 +42,7 @@ class RegisterController extends controller {
     register(req, res, next) {
         passport.authenticate('local.register', {
             successRedirect: '/',
-            failureRedirect: '/register',
+            failureRedirect: 'auth/register',
             failureFlash: true
         })(req, res, next);
     }
