@@ -36,6 +36,7 @@ module.exports = class Application {
     setConfig() {
 
         require('app/passport/passport-local');
+        require('app/passport/passport-google');
 
         //Define Static path
         app.use(express.static(config.layout.public_dir));
