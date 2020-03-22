@@ -5,32 +5,39 @@ const passport = require('passport');
 class LoginController extends controller {
 
     showLogin(req, res) {
-        res.render('loginPage', {errors: req.flash('errors'), captcha: this.recaptcha.render()});
+
+        messages = validator.validateErrorMessage('');
+        if (req.flash('error')[0] === 'error') {
+            messages.userName.value = 'user name or password is incorrect';
+            messages.password.value = 'user name or password is incorrect';
+        }
+
+        res.render('loginPage', {messages, captchaError: req.flash('captchaError'), captcha: this.recaptcha.render()});
     }
 
-    loginProcess(req, res, next) {
-        if (validator.validate(req, message => {
-            messages = message;
-        })) {
-            res.render('loginPage', {errors: req.flash('errors'), captcha: this.recaptcha.render()});
-        } else {
+    async loginProcess(req, res, next) {
 
-            this.recaptchaVerify(req, res)
-                .then(result => {
-                    if (result) {
-                        this.login(req, res, next);
-                    } else {
-                        res.redirect('/login');
-                    }
-                })
+        // verify recaptcha
+        await this.recaptchaVerify(req, res);
 
+        // check validation
+        let validate = await validator.validate(req);
+        if (validate !== false) { //validation have Error
+            messages = validate;
+            res.render('loginPage', {
+                messages,
+                captchaError: req.flash('captchaError'),
+                captcha: this.recaptcha.render()
+            });
+        } else { //validation is OK
+            this.login(req, res, next);
         }
+
     }
 
     login(req, res, next) {
         passport.authenticate('local.login', (err, user) => {
             if (!user) {
-                console.log('not exist');
                 return res.redirect('/login');
             }
 

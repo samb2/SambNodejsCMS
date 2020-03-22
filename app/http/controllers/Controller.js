@@ -23,14 +23,19 @@ module.exports = class Controller {
     recaptchaVerify(req, res) {
 
         return new Promise((resolve, reject) => {
-
-            this.recaptcha.verify(req, function (error, data) {
+            this.recaptcha.verify(req, (error, data) => {
                 if (error == null) {
                     resolve(true);
                 } else {
-                    res.redirect('/register');
+                    req.flash('captchaError', 'google recaptcha error');
+                    this.back(req, res)
                 }
             });
         });
     }
+
+    back(req, res) {
+        return res.redirect(req.header('Referer') || '/');
+    }
+
 };

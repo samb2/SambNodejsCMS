@@ -1,4 +1,5 @@
 const {validationResult} = require('express-validator');
+const {check, body} = require('express-validator');
 
 let messages = {
     'userName': {value: '', error: ''},
@@ -7,7 +8,14 @@ let messages = {
 
 class LoginValidator {
 
-    validate(req, message) {
+    handle() {
+        return [
+            check('userName', 'Your username is required.').not().isEmpty(),
+            check('password', 'Password is required.').not().isEmpty().bail()
+        ]
+    }
+
+    validate(req) {
         this.validateValueMessage(req);
         const errors = validationResult(req);
 
@@ -21,8 +29,7 @@ class LoginValidator {
                     messages.password.error = result.msg;
                 }
             });
-            message(messages);
-            return true;
+            return messages;
 
         } else {
             return false;

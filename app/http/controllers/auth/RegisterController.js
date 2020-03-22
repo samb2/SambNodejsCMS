@@ -7,32 +7,38 @@ class RegisterController extends controller {
     //GET register process
     showRegister(req, res) {
 
+        //delete all validation errors
         messages = validator.validateErrorMessage('');
-        if (req.flash('errors')[0] === 'چنین کاربری قبلا در سایت ثبت نام کرده است') {
+
+        //check userName exist in DataBase
+        if (req.flash('errors')[0] === 'userExist') {
             messages.userName.error = 'Username Already taken';
         }
-        res.render('register', {messages, captcha: this.recaptcha.render()});
+        // Show register Form
+        res.render('register', {messages, captchaError: req.flash('captchaError'), captcha: this.recaptcha.render()});
     }
 
     //POST register process
-    registerProcess(req, res, next) {
+    async registerProcess(req, res, next) {
 
-        if (validator.validate(req, message => {
-            messages = message;
-        })) {
-            res.render('register', {messages, captcha: this.recaptcha.render()});
-        } else {
-            this.recaptchaVerify(req, res)
-                .then(result => {
-                    if (result) {
-                        this.register(req, res, next);
-                    } else {
-                        res.redirect('/register');
-                    }
-                });
+        // verify recaptcha
+        await this.recaptchaVerify(req, res);
+
+        // check validation
+        let validate = await validator.validate(req);
+        if (validate !== false) { //validation have Error
+            messages = validate;
+            res.render('register', {
+                messages,
+                captchaError: req.flash('captchaError'),
+                captcha: this.recaptcha.render()
+            });
+        } else { //validation is OK
+            this.register(req, res, next);
         }
     }
 
+    // registering user and save in DataBase
     register(req, res, next) {
         passport.authenticate('local.register', {
             successRedirect: '/',

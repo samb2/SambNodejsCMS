@@ -21,7 +21,7 @@ passport.use('local.register', new localStrategy({
 }, (req, userName, password, done) => {
     User.findOne({'userName': userName}, (err, user) => {
         if (err) return done(err);
-        if (user) return done(null, false, req.flash('errors', 'چنین کاربری قبلا در سایت ثبت نام کرده است'));
+        if (user) return done(null, false, req.flash('errors', 'userExist'));
 
         const newUser = new User({
             firstName: req.body.firstName,
@@ -49,7 +49,7 @@ passport.use('local.login' , new localStrategy({
         if(err) return done(err);
 
         if(! user || ! user.comparePassword(password)) {
-            return done(null , false , req.flash('errors' , 'اطلاعات وارد شده مطابقت ندارد'));
+            return done(null , false , req.flash('error' , 'error'));
         }
 
         done(null , user);

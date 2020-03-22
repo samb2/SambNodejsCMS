@@ -11,19 +11,24 @@
                                     <label for="username">Username</label>
                                     <div class="input-group">
                                         <input type="text"
-                                               class="form-control"
+                                               class="form-control <% if(messages.userName.value != '' || messages.userName.error != ''){ if(messages.userName.error != null) { %>is-invalid<% }else if (messages.userName.value != ''){ %>is-valid<% }} %>"
                                                id="username"
+                                               value='<% if(messages.userName.error == null){ %><%= messages.userName.value %><% } %>'
                                                name="userName">
-                                        <div class="invalid-feedback" style="width: 100%;"></div>
+                                        <div class="invalid-feedback">
+                                            <%= messages.userName.error %>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="password">Password</label>
                                     <input type="password"
-                                           class="form-control"
+                                           class="form-control <% if(messages.password.value != '' || messages.password.error != ''){ if(messages.password.error != null) { %>is-invalid<% }else if (messages.password.value != ''){ %>is-valid<% }} %>"
                                            id="password"
                                            name="password">
-                                    <div class="invalid-feedback"></div>
+                                    <div class="invalid-feedback">
+                                        <%= messages.password.error %>
+                                    </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <input type="checkbox" name="remember"> Remember Me
@@ -31,15 +36,18 @@
                                 <hr class="my-4">
                                 <div class="google-btn">
                                     <div class="google-icon-wrapper">
-                                        <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                                        <img class="google-icon"
+                                             src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
                                     </div>
-                                    <button class="btn btn-text"><b><a href="/login/google">Sign in with google</a></b></button>
+                                    <button class="btn btn-text"><b><a href="/login/google">Sign in with google</a></b>
+                                    </button>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
                                 </div>
                                 <div>
-                                    <%= errors %>
+                                    <%= messages.password.value %>
+                                    <%= captchaError %>
                                 </div>
                                 <div class="col-md-12 mb-3 text-center">
                                     <button class="btn btn-primary btn-lg">Login</button>
