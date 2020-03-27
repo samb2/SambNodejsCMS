@@ -21,8 +21,12 @@ router.use('/login', loginRouter);
 const registerRouter = require('app/routes/web/register');
 router.use('/register', registerRouter);
 
+//Password
+const passwordRouter = require('app/routes/web/password');
+router.use('/password', passwordRouter);
+
 //Logout
-router.get('/logout' , (req , res) => {
+router.get('/logout', (req, res) => {
     req.logout();
     res.clearCookie('remember_token');
     res.redirect('/');

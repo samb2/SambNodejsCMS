@@ -22,6 +22,12 @@ userSchema.pre('save', function (next) {
 
 });
 
+userSchema.pre('findOneAndUpdate', function (next) {
+    let salt = bcrypt.genSaltSync(15);
+    this.getUpdate().$set.password = bcrypt.hashSync(this.getUpdate().$set.password, salt);
+    next();
+});
+
 userSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };

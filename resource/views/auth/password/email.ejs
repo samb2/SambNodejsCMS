@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card border-primary bg-light mb-3 mt-5" style="max-width: 100%;">
+                <div class="card-header pt-4">
+                    <h2>forgot password</h2>
+                </div>
+                <div class="card-body">
+                    <form action="/password/email" method="post" novalidate>
+                        <div class="col-md-12 order-md-1">
+                            <div class="row">
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                                    <input type="email"
+                                           class="form-control <% if(messages.email.value != '' || messages.email.error != ''){ if(messages.email.error != null) { %>is-invalid<% }else if (messages.email.value != ''){ %>is-valid<% }} %>"
+                                           id="email"
+                                           name="email"
+                                           placeholder="you@example.com"
+                                           value='<% if(messages.email.error == null){ %><%= messages.email.value %><% } %>'>
+                                    <div class="invalid-feedback">
+                                        <%= messages.email.error %>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+                                </div>
+
+                                <div>
+                                    <%= captchaError %>
+                                </div>
+                                <div class="col-md-12 mb-3 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg">reset password</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- captcha -%>
