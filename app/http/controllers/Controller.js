@@ -6,7 +6,6 @@ module.exports = class Controller {
     constructor() {
         autoBind(this);
         this.recaptchaConfig();
-
     }
 
     recaptchaConfig() {
@@ -27,6 +26,7 @@ module.exports = class Controller {
                 if (error == null) {
                     resolve(true);
                 } else {
+                    console.log(error);
                     req.flash('captchaError', 'google recaptcha error');
                     this.back(req, res)
                 }

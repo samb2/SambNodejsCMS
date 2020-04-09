@@ -9,7 +9,6 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const helpers = require('./helpers');
 const rememberLogin = require('app/http/middleware/rememberLogin');
-const expressLayouts = require('express-ejs-layouts');
 
 module.exports = class Application {
 
@@ -44,7 +43,11 @@ module.exports = class Application {
         app.set('view engine', config.layout.view_engine);
         //Set view Route in project
         app.set('views', config.layout.view_dir);
-        app.use(expressLayouts);
+        app.use(config.layout.ejs.expressLayouts);
+        app.set("layout extractScripts", config.layout.ejs.extractScripts);
+        app.set("layout extractStyles", config.layout.ejs.extractStyles);
+        app.set("layout" , config.layout.ejs.master);
+
 
         //body-parser used for access to req.body
         app.use(bodyParser.json());
@@ -62,7 +65,6 @@ module.exports = class Application {
             app.locals = new helpers(req, res).getObjects();
             next();
         });
-
 
     }
 

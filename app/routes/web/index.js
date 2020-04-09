@@ -1,13 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const redirectIfAuthenticated = require('app/http/middleware/redirectIfAuthenticated');
+const redirectIfnotAdmin = require('app/http/middleware/redirectIfNotAdmin');
+
 // Home Router
 const homeRouter = require('app/routes/web/home');
 router.use('/', homeRouter);
 
 // Admin Router
 const adminRouter = require('app/routes/web/admin');
-router.use('/admin', adminRouter);
+router.use('/admin', redirectIfnotAdmin.handle, adminRouter);
 
 //About Router
 const aboutRouter = require('app/routes/web/about');
@@ -15,7 +18,7 @@ router.use('/about', aboutRouter);
 
 //Login
 const loginRouter = require('app/routes/web/login');
-router.use('/login', loginRouter);
+router.use('/login', redirectIfAuthenticated.handle, loginRouter);
 
 //Register
 const registerRouter = require('app/routes/web/register');

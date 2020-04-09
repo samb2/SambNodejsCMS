@@ -5,14 +5,17 @@ const passport = require('passport');
 class LoginController extends controller {
 
     showLogin(req, res) {
-
         messages = validator.validateErrorMessage('');
         if (req.flash('error')[0] === 'error') {
             messages.userName.value = 'user name or password is incorrect';
             messages.password.value = 'user name or password is incorrect';
         }
 
-        res.render('auth/loginPage', {messages, captchaError: req.flash('captchaError'), captcha: this.recaptcha.render()});
+        res.render('auth/loginPage', {
+            messages,
+            captchaError: req.flash('captchaError'),
+            captcha: this.recaptcha.render()
+        });
     }
 
     async loginProcess(req, res, next) {

@@ -1,9 +1,9 @@
 const controller = require('app/http/controllers/Controller');
 
-class AdminController extends controller {
+class AdminController {
 
     index(req, res) {
-        res.render('admin');
+        res.render('admin/index');
     }
 
     courses(req, res) {
