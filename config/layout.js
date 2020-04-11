@@ -6,10 +6,10 @@ module.exports = {
     public_dir: 'public',
     view_dir: path.resolve('./resource/views'),
     view_engine: 'ejs',
-    ejs : {
+    ejs: {
         expressLayouts,
-        extractScripts : true,
-        extractStyles : true,
-        master : 'layout'
+        extractScripts: true,
+        extractStyles: true,
+        master: 'layout'
     }
 };

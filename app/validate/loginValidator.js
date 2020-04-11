@@ -1,10 +1,6 @@
 const {validationResult} = require('express-validator');
 const {check, body} = require('express-validator');
 
-let messages = {
-    'userName': {value: '', error: ''},
-    'password': {value: '', error: ''},
-};
 
 class LoginValidator {
 
@@ -23,13 +19,13 @@ class LoginValidator {
             errors.errors.forEach(result => {
 
                 if (result.param === 'userName') {
-                    messages.userName.error = result.msg;
+                    messages.login.username.error = result.msg;
 
                 } else if (result.param === 'password') {
-                    messages.password.error = result.msg;
+                    messages.login.password.error = result.msg;
                 }
             });
-            return messages;
+            return true;
 
         } else {
             return false;
@@ -37,18 +33,18 @@ class LoginValidator {
     }
 
     validateErrorMessage(message) {
-        return messages = {
-            'userName': {value: '', error: message},
-            'password': {value: '', error: message},
-        };
+        messages.login.username.value = '';
+        messages.login.username.error = message;
+        messages.login.password.value = '';
+        messages.login.password.error = message;
+        messages.login.error = '';
     }
 
     validateValueMessage(req) {
-        messages = {
-            'userName': {value: req.body.userName},
-            'password': {value: req.body.password},
-        };
+        messages.login.username.value = req.body.userName;
+        messages.login.password.value = req.body.password;
     }
+
 }
 
 module.exports = new LoginValidator();

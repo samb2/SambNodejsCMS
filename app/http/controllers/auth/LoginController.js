@@ -5,30 +5,24 @@ const passport = require('passport');
 class LoginController extends controller {
 
     showLogin(req, res) {
-        messages = validator.validateErrorMessage('');
-        if (req.flash('error')[0] === 'error') {
-            messages.userName.value = 'user name or password is incorrect';
-            messages.password.value = 'user name or password is incorrect';
-        }
+        validator.validateErrorMessage('');
 
         res.render('auth/loginPage', {
-            messages,
             captchaError: req.flash('captchaError'),
             captcha: this.recaptcha.render()
         });
     }
 
     async loginProcess(req, res, next) {
+        validator.validateErrorMessage('');
 
         // verify recaptcha
-        await this.recaptchaVerify(req, res);
+        //await this.recaptchaVerify(req, res);
 
         // check validation
         let validate = await validator.validate(req);
-        if (validate !== false) { //validation have Error
-            messages = validate;
+        if (validate) { //validation have Error
             res.render('auth/loginPage', {
-                messages,
                 captchaError: req.flash('captchaError'),
                 captcha: this.recaptcha.render()
             });
@@ -41,7 +35,11 @@ class LoginController extends controller {
     login(req, res, next) {
         passport.authenticate('local.login', (err, user) => {
             if (!user) {
-                return res.redirect('/login');
+                messages.login.error = 'username or Password is incorrect';
+                return res.render('auth/loginPage', {
+                    captchaError: req.flash('captchaError'),
+                    captcha: this.recaptcha.render()
+                });
             }
 
             req.logIn(user, err => {
@@ -54,10 +52,5 @@ class LoginController extends controller {
     }
 
 }
-
-let messages = {
-    'userName': {value: '', error: ''},
-    'password': {value: '', error: ''},
-};
 
 module.exports = new LoginController();

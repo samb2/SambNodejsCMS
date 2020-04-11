@@ -1,15 +1,6 @@
 const {validationResult} = require('express-validator');
 const {check, body} = require('express-validator');
 
-let messages = {
-    'firstName': {value: '', error: ''},
-    'lastName': {value: '', error: ''},
-    'userName': {value: '', error: ''},
-    'email': {value: '', error: ''},
-    'password': {value: '', error: ''},
-    'confirmPassword': {value: '', error: ''},
-};
-
 class RegisterValidator {
 
     // check all input values and validate them
@@ -66,27 +57,27 @@ class RegisterValidator {
             errors.errors.forEach(result => {
 
                 if (result.param === 'firstName') {
-                    messages.firstName.error = result.msg;
+                    messages.register.firstName.error = result.msg;
 
                 } else if (result.param === 'lastName') {
-                    messages.lastName.error = result.msg;
+                    messages.register.lastName.error = result.msg;
 
                 } else if (result.param === 'userName') {
-                    messages.userName.error = result.msg;
+                    messages.register.userName.error = result.msg;
 
                 } else if (result.param === 'email') {
-                    messages.email.error = result.msg;
+                    messages.register.email.error = result.msg;
 
                 } else if (result.param === 'password') {
-                    messages.password.error = result.msg;
-                    messages.confirmPassword.value = '';
+                    messages.register.password.error = result.msg;
+                    messages.register.confirmPassword.value = '';
 
                 } else if (result.param === 'confirmPassword') {
-                    messages.confirmPassword.error = result.msg;
-                    messages.password.value = '';
+                    messages.register.confirmPassword.error = result.msg;
+                    messages.register.password.value = '';
                 }
             });
-            return messages;
+            return true;
         } else {
             // return false when errors is empty
             return false;
@@ -94,25 +85,31 @@ class RegisterValidator {
     }
 
     validateErrorMessage(message) {
-        return messages = {
-            'firstName': {value: '', error: message},
-            'lastName': {value: '', error: message},
-            'userName': {value: '', error: message},
-            'email': {value: '', error: message},
-            'password': {value: '', error: message},
-            'confirmPassword': {value: '', error: message},
-        };
+        messages.register.firstName.error = message;
+        messages.register.lastName.error = message;
+        messages.register.userName.error = message;
+        messages.register.email.error = message;
+        messages.register.password.error = message;
+        messages.register.confirmPassword.error = message;
+
+        messages.register.firstName.value = '';
+        messages.register.lastName.value = '';
+        messages.register.userName.value = '';
+        messages.register.email.value = '';
+        messages.register.password.value = '';
+        messages.register.confirmPassword.value = '';
+
+
     }
 
     validateValueMessage(req) {
-        messages = {
-            'firstName': {value: req.body.firstName},
-            'lastName': {value: req.body.lastName},
-            'userName': {value: req.body.userName},
-            'email': {value: req.body.email},
-            'password': {value: req.body.password},
-            'confirmPassword': {value: req.body.confirmPassword},
-        };
+
+        messages.register.firstName.value = req.body.firstName;
+        messages.register.lastName.value = req.body.lastName;
+        messages.register.userName.value = req.body.userName;
+        messages.register.email.value = req.body.email;
+        messages.register.password.value = req.body.password;
+        messages.register.confirmPassword.value = req.body.confirmPassword;
     }
 }
 

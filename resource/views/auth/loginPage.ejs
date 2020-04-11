@@ -11,23 +11,22 @@
                                     <label for="username">Username</label>
                                     <div class="input-group">
                                         <input type="text"
-                                               class="form-control <% if(messages.userName.value != '' || messages.userName.error != ''){ if(messages.userName.error != null) { %>is-invalid<% }else if (messages.userName.value != ''){ %>is-valid<% }} %>"
+                                               class="form-control <%= checkLoginValid(messages.login.username) %>"
                                                id="username"
-                                               value='<% if(messages.userName.error == null){ %><%= messages.userName.value %><% } %>'
                                                name="userName">
                                         <div class="invalid-feedback">
-                                            <%= messages.userName.error %>
+                                            <%= messages.login.username.error %>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="password">Password</label>
                                     <input type="password"
-                                           class="form-control <% if(messages.password.value != '' || messages.password.error != ''){ if(messages.password.error != null) { %>is-invalid<% }else if (messages.password.value != ''){ %>is-valid<% }} %>"
+                                           class="form-control <%= checkLoginValid(messages.login.password) %>"
                                            id="password"
                                            name="password">
                                     <div class="invalid-feedback">
-                                        <%= messages.password.error %>
+                                        <%= messages.login.password.error %>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
@@ -46,7 +45,7 @@
                                     <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" value="">
                                 </div>
                                 <div>
-                                    <%= messages.password.value %>
+                                    <%= messages.login.error %>
                                     <%= captchaError %>
                                 </div>
                                 <div class="col-md-12 mb-3 text-center">

@@ -49,7 +49,7 @@ passport.use('local.login', new localStrategy({
         if (err) return done(err);
 
         if (!user || !user.comparePassword(password)) {
-            return done(null, false, req.flash('error', 'error'));
+            return done(null, false, messages.login.password.value = 'username or password is incorrect');
         }
 
         done(null, user);

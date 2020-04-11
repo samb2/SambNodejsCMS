@@ -4,10 +4,12 @@ module.exports = class Helpers {
         this.req = req;
         this.res = res;
     }
-    
+
     getObjects() {
         return {
-            auth: this.auth()
+            auth: this.auth(),
+            checkLoginValid: this.checkLoginValid,
+            checkRegisterValid: this.checkRegisterValid,
         }
     }
 
@@ -16,6 +18,27 @@ module.exports = class Helpers {
             check: this.req.isAuthenticated(),
             user: this.req.user
         }
+    }
+
+    checkLoginValid(message) {
+
+        if (message.error !== '') {
+            return 'is-invalid';
+        } else if (message.value !== '') {
+            return '';
+        }
+
+    }
+
+    checkRegisterValid(message){
+
+        if (message.error !== ''){
+            return 'is-invalid';
+        }
+        if (message.error === '' && message.value !== ''){
+            return 'is-valid';
+        }
+
     }
 
 };

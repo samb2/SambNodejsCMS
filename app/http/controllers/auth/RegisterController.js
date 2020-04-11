@@ -8,28 +8,30 @@ class RegisterController extends controller {
     showRegister(req, res) {
 
         //delete all validation errors
-        messages = validator.validateErrorMessage('');
+        validator.validateErrorMessage('');
 
         //check userName exist in DataBase
         if (req.flash('errors')[0] === 'userExist') {
-            messages.userName.error = 'Username Already taken';
+            messages.register.userName.error = 'Username Already taken';
         }
         // Show register Form
-        res.render('auth/register', {messages, captchaError: req.flash('captchaError'), captcha: this.recaptcha.render()});
+        res.render('auth/register', {
+            captchaError: req.flash('captchaError'),
+            captcha: this.recaptcha.render()
+        });
     }
 
     //POST register process
     async registerProcess(req, res, next) {
 
+        validator.validateErrorMessage('');
         // verify recaptcha
-        await this.recaptchaVerify(req, res);
+        //await this.recaptchaVerify(req, res);
 
         // check validation
         let validate = await validator.validate(req);
-        if (validate !== false) { //validation have Error
-            messages = validate;
+        if (validate) { //validation have Error
             res.render('auth/register', {
-                messages,
                 captchaError: req.flash('captchaError'),
                 captcha: this.recaptcha.render()
             });
@@ -48,13 +50,5 @@ class RegisterController extends controller {
     }
 }
 
-let messages = {
-    'firstName': {value: '', error: ''},
-    'lastName': {value: '', error: ''},
-    'userName': {value: '', error: ''},
-    'email': {value: '', error: ''},
-    'password': {value: '', error: ''},
-    'confirmPassword': {value: '', error: ''},
-};
 
 module.exports = new RegisterController();

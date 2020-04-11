@@ -12,24 +12,24 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName">First name</label>
                                     <input type="text"
-                                           class="form-control <% if(messages.firstName.value != '' || messages.firstName.error != ''){ if(messages.firstName.error != null) { %>is-invalid<% }else if (messages.firstName.value != ''){ %>is-valid<% }} %>"
+                                           class="form-control <%= checkRegisterValid(messages.register.firstName) %>"
                                            id="firstName"
                                            name="firstName"
-                                           value='<% if(messages.firstName.error == null){ %><%= messages.firstName.value %><% } %>'
+                                           value='<%= messages.register.firstName.value %>'
                                            autofocus>
                                     <div class="invalid-feedback">
-                                        <%= messages.firstName.error %>
+                                        <%= messages.register.firstName.error %>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="lastName">Last name</label>
                                     <input type="text"
-                                           class="form-control <% if(messages.lastName.value != '' || messages.lastName.error != ''){ if(messages.lastName.error != null) { %>is-invalid<% }else if (messages.lastName.value != ''){ %>is-valid<% }} %>"
+                                           class="form-control <%= checkRegisterValid(messages.register.lastName) %>"
                                            id="lastName"
                                            name="lastName"
-                                           value='<% if(messages.lastName.error == null){ %><%= messages.lastName.value %><% } %>'>
+                                           value='<%= messages.register.lastName.value %>'>
                                     <div class="invalid-feedback">
-                                        <%= messages.lastName.error %>
+                                        <%= messages.register.lastName.error %>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
@@ -39,48 +39,48 @@
                                             <span class="input-group-text">@</span>
                                         </div>
                                         <input type="text"
-                                               class="form-control <% if(messages.userName.value != '' || messages.userName.error != ''){ if(messages.userName.error != null) { %>is-invalid<% }else if (messages.userName.value != ''){ %>is-valid<% }} %>"
+                                               class="form-control <%= checkRegisterValid(messages.register.userName) %>"
                                                id="username"
                                                name="userName"
                                                placeholder="Username"
-                                               value='<% if(messages.userName.error == null){ %><%= messages.userName.value %><% } %>'>
+                                               value='<%= messages.register.userName.value %>'>
                                         <div class="invalid-feedback" style="width: 100%;">
-                                            <%= messages.userName.error %>
+                                            <%= messages.register.userName.error %>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="email">Email <span class="text-muted">(Optional)</span></label>
                                     <input type="email"
-                                           class="form-control <% if(messages.email.value != '' || messages.email.error != ''){ if(messages.email.error != null) { %>is-invalid<% }else if (messages.email.value != ''){ %>is-valid<% }} %>"
+                                           class="form-control <%= checkRegisterValid(messages.register.email) %>"
                                            id="email"
                                            name="email"
                                            placeholder="you@example.com"
-                                           value='<% if(messages.email.error == null){ %><%= messages.email.value %><% } %>'>
+                                           value='<%= messages.register.email.value %>'>
                                     <div class="invalid-feedback">
-                                        <%= messages.email.error %>
+                                        <%= messages.register.email.error %>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="password">Password</label>
                                     <input type="password"
-                                           class="form-control <% if(messages.password.value != '' || messages.password.error != ''){ if(messages.password.error != null) { %>is-invalid<% }else if (messages.password.value != ''){ %>is-valid<% }} %>"
+                                           class="form-control <%= checkRegisterValid(messages.register.password) %>"
                                            id="password"
                                            name="password"
-                                           value='<% if(messages.password.error == null){ %><%= messages.password.value %><% } %>'>
+                                           value='<%= messages.register.password.value %>'>
                                     <div class="invalid-feedback">
-                                        <%= messages.password.error %>
+                                        <%= messages.register.password.error %>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label for="confirmpass">Password (confirm)</label>
                                     <input type="password"
-                                           class="form-control <% if(messages.confirmPassword.value != '' || messages.confirmPassword.error != ''){ if(messages.confirmPassword.error != null) { %>is-invalid<% }else if (messages.confirmPassword.value != ''){ %>is-valid<% }} %>"
+                                           class="form-control <%= checkRegisterValid(messages.register.confirmPassword) %>"
                                            id="confirmpass"
                                            name="confirmPassword"
-                                           value='<% if(messages.confirmPassword.error == null){ %><%= messages.confirmPassword.value %><% } %>'>
+                                           value='<%= messages.register.confirmPassword.value %>'>
                                     <div class="invalid-feedback">
-                                        <%= messages.confirmPassword.error %>
+                                        <%= messages.register.confirmPassword.error %>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
