@@ -13,6 +13,7 @@
                                         <input type="text"
                                                class="form-control <%= checkLoginValid(messages.login.username) %>"
                                                id="username"
+                                               value="<%= messages.login.username.value %>"
                                                name="userName">
                                         <div class="invalid-feedback">
                                             <%= messages.login.username.error %>

@@ -15,7 +15,6 @@ class LoginController extends controller {
 
     async loginProcess(req, res, next) {
         validator.validateErrorMessage('');
-
         // verify recaptcha
         //await this.recaptchaVerify(req, res);
 

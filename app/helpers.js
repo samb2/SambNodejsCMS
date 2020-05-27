@@ -21,7 +21,6 @@ module.exports = class Helpers {
     }
 
     checkLoginValid(message) {
-
         if (message.error !== '') {
             return 'is-invalid';
         } else if (message.value !== '') {
@@ -30,12 +29,12 @@ module.exports = class Helpers {
 
     }
 
-    checkRegisterValid(message){
+    checkRegisterValid(message) {
 
-        if (message.error !== ''){
+        if (message.error !== '') {
             return 'is-invalid';
         }
-        if (message.error === '' && message.value !== ''){
+        if (message.error === '' && message.value !== '') {
             return 'is-valid';
         }
 
