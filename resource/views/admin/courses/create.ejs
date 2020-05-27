@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
     <h2>ایجاد دوره</h2>
 </div>
-<form class="form-horizontal" action="/admin/courses/create" method="post">
+<form class="form-horizontal" action="/admin/courses/create" method="post" enctype="multipart/form-data">
 
 
     <div class="form-group row">
@@ -45,13 +45,13 @@
         <div class="col">
             <label for="images" class="control-label font-weight-bold">تصویر دوره</label>
             <input type="file"
-                   class="form-control <%= checkLoginValid(messages.createCourse.image) %>"
+                   class="form-control <%= checkLoginValid(messages.createCourse.images) %>"
                    name="images"
                    id="images"
-                   value=""
+                   value="<%= messages.createCourse.images.value %>"
                    placeholder="تصویر مقاله را وارد کنید">
             <div class="invalid-feedback">
-                <%= messages.createCourse.image.error %>
+                <%= messages.createCourse.images.error %>
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 const controller = require('app/http/controllers/Controller');
 const validator = require('app/validate/admin/createCourseValidator');
 const Course = require('app/models/course');
+const fs = require('fs');
 
 class courseController extends controller {
 
@@ -18,6 +19,10 @@ class courseController extends controller {
         // check validation
         let validate = await validator.validate(req);
         if (validate) { //validation have Error
+            if (req.file) {
+                fs.unlink(req.file.path, (err) => {
+                });
+            }
             res.render('admin/courses/create');
         } else { //validation is OK
             this.store(req, res, next);

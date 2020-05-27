@@ -11,12 +11,16 @@ class createCourseValidator extends validator {
                 .custom(async (value) => {
                     let course = await Course.findOne({slug: this.slug(value)});
                     if (course) {
-                        throw new Error('چنین دوره ای با این عنوان قبلا در سایت قرار داد شده است')
+                        throw new Error('چنین دوره ای با این عنوان قبلا در سایت قرار داد شده است');
                     }
                 }),
             check('type', 'Password is required.').not().isEmpty().bail(),
             check('body', 'body is required.').not().isEmpty().bail(),
-            //check('image', 'image is required.').not().isEmpty().bail(),
+            check('images').custom(async value => {
+                if (!value) {
+                    throw new Error('وارد کردن تصویر الزامیست');
+                }
+            }),
             check('price', 'price is required.').not().isEmpty().bail(),
             check('tags', 'tag is required.').not().isEmpty().bail(),
         ]
@@ -40,8 +44,8 @@ class createCourseValidator extends validator {
                     messages.createCourse.type.error = result.msg;
                 } else if (result.param === 'body') {
                     messages.createCourse.body.error = result.msg;
-                } else if (result.param === 'image') {
-                    messages.createCourse.image.error = result.msg;
+                } else if (result.param === 'images') {
+                    messages.createCourse.images.error = result.msg;
                 } else if (result.param === 'price') {
                     messages.createCourse.price.error = result.msg;
                 } else if (result.param === 'tags') {
@@ -62,8 +66,8 @@ class createCourseValidator extends validator {
         messages.createCourse.type.error = message;
         messages.createCourse.body.value = '';
         messages.createCourse.body.error = message;
-        messages.createCourse.image.value = '';
-        messages.createCourse.image.error = message;
+        messages.createCourse.images.value = '';
+        messages.createCourse.images.error = message;
         messages.createCourse.price.value = '';
         messages.createCourse.price.error = message;
         messages.createCourse.tags.value = '';
@@ -75,7 +79,7 @@ class createCourseValidator extends validator {
         messages.createCourse.title.value = req.body.title;
         messages.createCourse.type.value = req.body.type;
         messages.createCourse.body.value = req.body.body;
-        messages.createCourse.image.value = req.body.image;
+        messages.createCourse.images.value = req.body.image;
         messages.createCourse.price.value = req.body.price;
         messages.createCourse.tags.value = req.body.tags;
     }
