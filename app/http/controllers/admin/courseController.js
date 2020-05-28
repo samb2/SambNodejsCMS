@@ -2,6 +2,8 @@ const controller = require('app/http/controllers/Controller');
 const validator = require('app/validate/admin/createCourseValidator');
 const Course = require('app/models/course');
 const fs = require('fs');
+const sharp = require('sharp');
+const path = require('path');
 
 class courseController extends controller {
 
@@ -19,6 +21,7 @@ class courseController extends controller {
         // check validation
         let validate = await validator.validate(req);
         if (validate) { //validation have Error
+
             if (req.file) {
                 fs.unlink(req.file.path, (err) => {
                 });
@@ -30,7 +33,7 @@ class courseController extends controller {
     }
 
     async store(req, res, next) {
-        let images = req.body.images;
+        let images = this.imageResize(req.file);
         let {title, body, type, price, tags} = req.body;
 
         let newCourse = new Course({
@@ -40,7 +43,7 @@ class courseController extends controller {
             body,
             type,
             price,
-            images,
+            images: JSON.stringify(images),
             tags
         });
 
@@ -51,6 +54,30 @@ class courseController extends controller {
 
     slug(title) {
         return title.replace(/([^۰-۹آ-یa-z0-9]|-)+/g, "-");
+    }
+
+    imageResize(image) {
+
+        let addressImages = {};
+        addressImages['original'] = this.getUrlImage(`${image.destination}/${image.filename}`);
+
+        let sizes = [1080, 720, 480];
+        sizes.map(size => {
+
+            const imageInfo = path.parse(image.path);
+            let imageName = `${imageInfo.name}-${size}${imageInfo.ext}`;
+            addressImages[size] = this.getUrlImage(`${image.destination}/${imageName}`);
+
+            sharp(image.path)
+                .resize(size, null)
+                .toFile(`${image.destination}/${imageName}`).then(r => {
+            });
+        });
+        return addressImages;
+    }
+
+    getUrlImage(des) {
+        return des.substr(8);
     }
 }
 

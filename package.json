@@ -36,6 +36,7 @@
     "express-recaptcha": "^5.0.1",
     "express-session": "^1.17.0",
     "express-validator": "^6.4.0",
+    "mkdirp": "latest",
     "mongoose": "^5.9.5",
     "multer": "^1.4.2",
     "node-pre-gyp": "^0.14.0",
@@ -43,7 +44,7 @@
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.4",
-    "unique-string": "^2.0.0",
-    "mkdirp": "latest"
+    "sharp": "^0.25.3",
+    "unique-string": "^2.0.0"
   }
 }
