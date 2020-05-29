@@ -1,6 +1,10 @@
+const path = require('path');
+const autoBind = require('auto-bind');
+
 module.exports = class Helpers {
 
     constructor(req, res) {
+        autoBind(this);
         this.req = req;
         this.res = res;
     }
@@ -8,9 +12,14 @@ module.exports = class Helpers {
     getObjects() {
         return {
             auth: this.auth(),
+            viewPath: this.viewPath,
             checkLoginValid: this.checkLoginValid,
             checkRegisterValid: this.checkRegisterValid,
         }
+    }
+
+    viewPath(dir) {
+        return path.resolve(config.layout.view_dir + '/' + dir);
     }
 
     auth() {

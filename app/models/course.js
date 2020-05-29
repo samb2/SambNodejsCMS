@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const mongoosePaginate = require('mongoose-paginate');
 
 const CourseSchema = Schema({
     user : { type : Schema.Types.ObjectId , ref : 'User'},
@@ -15,5 +16,18 @@ const CourseSchema = Schema({
     commentCount : { type : String , default : 0 },
 } , { timestamps : true });
 
+
+CourseSchema.plugin(mongoosePaginate);
+
+CourseSchema.methods.typeToPersian = function() {
+    switch (this.type) {
+        case 'cash':
+            return 'نقدی';
+        case 'vip':
+            return 'اعضای ویژه';
+        default:
+            return 'رایگان';
+    }
+};
 
 module.exports = mongoose.model('Course' , CourseSchema);
