@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const passport = require('passport');
 const helpers = require('./helpers');
+const methodOverride = require('method-override');
 const rememberLogin = require('app/http/middleware/rememberLogin');
 
 module.exports = class Application {
@@ -52,6 +53,8 @@ module.exports = class Application {
         //body-parser used for access to req.body
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({extended: true}));
+        //override method for DELETE button form POST
+        app.use(methodOverride('_method'));
         //Set session middleware
         app.use(session({...config.session}));
         //Set cookie-parser

@@ -10,8 +10,8 @@ class courseController extends controller {
     async index(req, res) {
 
         let page = req.query.page || 1;
-        let courses = await Course.paginate({} , { page , sort : { createdAt : 1 } , limit : 2 });
-        res.render('admin/courses' , {courses});
+        let courses = await Course.paginate({}, {page, sort: {createdAt: 1}, limit: 2});
+        res.render('admin/courses', {courses});
     }
 
     create(req, res) {
@@ -46,11 +46,28 @@ class courseController extends controller {
             body,
             type,
             price,
-            images: JSON.stringify(images),
+            images,
             tags
         });
 
         await newCourse.save();
+
+        return res.redirect('/admin/courses');
+    }
+
+    async destroy(req, res) {
+        let course = await Course.findById(req.params.id);
+        if (!course) {
+            return res.json('چنین دوره ای یافت نشد');
+        }
+        // delete episodes
+
+        // delete Images
+
+        Object.values(course.images).forEach(image => fs.unlinkSync(`./public${image}`));
+
+        // delete courses
+        course.remove();
 
         return res.redirect('/admin/courses');
     }
