@@ -3,6 +3,7 @@ const router = express.Router();
 
 const redirectIfAuthenticated = require('app/http/middleware/redirectIfAuthenticated');
 const redirectIfnotAdmin = require('app/http/middleware/redirectIfNotAdmin');
+const errorHandler = require('app/http/middleware/errorHandler');
 
 // Home Router
 const homeRouter = require('app/routes/web/home');
@@ -34,5 +35,10 @@ router.get('/logout', (req, res) => {
     res.clearCookie('remember_token');
     res.redirect('/');
 });
+
+// Handle Errors
+router.all('*', errorHandler.error404);
+router.use(errorHandler.handler);
+
 
 module.exports = router;

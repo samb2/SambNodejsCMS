@@ -47,7 +47,7 @@ module.exports = class Application {
         app.use(config.layout.ejs.expressLayouts);
         app.set("layout extractScripts", config.layout.ejs.extractScripts);
         app.set("layout extractStyles", config.layout.ejs.extractStyles);
-        app.set("layout" , config.layout.ejs.master);
+        app.set("layout", config.layout.ejs.master);
 
 
         //body-parser used for access to req.body
@@ -68,7 +68,6 @@ module.exports = class Application {
             app.locals = new helpers(req, res).getObjects();
             next();
         });
-
     }
 
     setRouters() {

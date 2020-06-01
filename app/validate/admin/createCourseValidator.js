@@ -1,14 +1,18 @@
 const {validationResult} = require('express-validator');
 const {check, body} = require('express-validator');
 const Course = require('app/models/course');
-const validator = require('../validator');
+const validatorTest = require('../validatorTest');
 
-class createCourseValidator extends validator {
+class createCourseValidator extends validatorTest {
 
     handle() {
         return [
-            check('title', 'Title is required.').not().isEmpty()
-                .custom(async (value) => {
+            check('title', 'Title is required.').not().isEmpty().bail()
+                .custom(async (value, {req}) => {
+                    if (req.query._method === 'put') {
+                        let course = await Course.findById(req.params.id);
+                        if (course.title === value) return;
+                    }
                     let course = await Course.findOne({slug: this.slug(value)});
                     if (course) {
                         throw new Error('چنین دوره ای با این عنوان قبلا در سایت قرار داد شده است');
@@ -16,10 +20,14 @@ class createCourseValidator extends validator {
                 }),
             check('type', 'Password is required.').not().isEmpty().bail(),
             check('body', 'body is required.').not().isEmpty().bail(),
-            check('images').custom(async value => {
+            check('images').custom(async (value) => {
                 if (!value) {
                     throw new Error('وارد کردن تصویر الزامیست');
                 }
+                // let fileExt = ['.png', '.jpg', '.jpeg', '.svg'];
+                // if (!fileExt.includes(path.extname(value))) {
+                //     throw new Error('پسوند فایل وارد شده از پسوندهای تصاویر نیست')
+                // }
             }),
             check('price', 'price is required.').not().isEmpty().bail(),
             check('tags', 'tag is required.').not().isEmpty().bail(),

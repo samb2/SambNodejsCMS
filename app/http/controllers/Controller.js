@@ -1,11 +1,12 @@
 const autoBind = require('auto-bind');
 const Recaptcha = require('express-recaptcha').RecaptchaV3;
+const isMongoId = require('validator/lib/isMongoId');
 
 module.exports = class Controller {
 
     constructor() {
         autoBind(this);
-        this.recaptchaConfig();
+        //this.recaptchaConfig();
     }
 
     recaptchaConfig() {
@@ -36,6 +37,17 @@ module.exports = class Controller {
 
     back(req, res) {
         return res.redirect(req.header('Referer') || '/');
+    }
+
+    isMongoId(paramId) {
+        if(! isMongoId(paramId))
+            this.error('ای دی وارد شده صحیح نیست', 404);
+    }
+
+    error(message , status = 500) {
+        let err = new Error(message);
+        err.status = status;
+        throw err;
     }
 
 };

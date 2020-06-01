@@ -9,14 +9,16 @@ class courseController extends controller {
 
     async index(req, res) {
 
-        let page = req.query.page || 1;
-        let courses = await Course.paginate({}, {page, sort: {createdAt: 1}, limit: 2});
-        res.render('admin/courses', {courses});
+            let page = req.query.page || 1;
+            let courses = await Course.paginate({}, {page, sort: {createdAt: 1}, limit: 2});
+            res.render('admin/courses', {courses});
     }
 
     create(req, res) {
-        validator.validateErrorMessage('');
-        res.render('admin/courses/create');
+
+            validator.validateErrorMessage('');
+            res.render('admin/courses/create');
+
     }
 
     async createProcess(req, res, next) {
@@ -25,10 +27,10 @@ class courseController extends controller {
         let validate = await validator.validate(req);
         if (validate) { //validation have Error
 
-            if (req.file) {
-                fs.unlink(req.file.path, (err) => {
-                });
-            }
+            // if (req.file) {
+            //     fs.unlink(req.file.path, (err) => {
+            //     });
+            // }
             res.render('admin/courses/create');
         } else { //validation is OK
             this.store(req, res, next);
@@ -36,6 +38,7 @@ class courseController extends controller {
     }
 
     async store(req, res, next) {
+
         let images = this.imageResize(req.file);
         let {title, body, type, price, tags} = req.body;
 
@@ -56,20 +59,61 @@ class courseController extends controller {
     }
 
     async destroy(req, res) {
-        let course = await Course.findById(req.params.id);
-        if (!course) {
-            return res.json('چنین دوره ای یافت نشد');
-        }
-        // delete episodes
 
-        // delete Images
+            let course = await Course.findById(req.params.id);
+            if (!course) {
+                return res.json('چنین دوره ای یافت نشد');
+            }
+            // delete episodes
 
-        Object.values(course.images).forEach(image => fs.unlinkSync(`./public${image}`));
+            // delete Images
 
-        // delete courses
-        course.remove();
+            Object.values(course.images).forEach(image => fs.unlinkSync(`./public${image}`));
 
-        return res.redirect('/admin/courses');
+            // delete courses
+            course.remove();
+
+            return res.redirect('/admin/courses');
+
+    }
+
+    async edit(req, res, next) {
+
+            this.isMongoId(req.params.id);
+
+            let course = await Course.findById(req.params.id);
+            if (!course) this.error('چنین دوره ای وجود ندارد', 404);
+
+
+            return res.render('admin/courses/edit', {course});
+
+    }
+
+    async update(req, res, next) {
+            let status = await validator.validate(req);
+            if (!status) {
+                if (req.file)
+                    fs.unlinkSync(req.file.path);
+                return this.back(req, res);
+            }
+
+            let objForUpdate = {};
+
+            // set image thumb
+            objForUpdate.thumb = req.body.imagesThumb;
+
+            // check image
+            if (req.file) {
+                objForUpdate.images = this.imageResize(req.file);
+                objForUpdate.thumb = objForUpdate.images[480];
+            }
+
+            delete req.body.images;
+            objForUpdate.slug = this.slug(req.body.title);
+
+            await Course.findByIdAndUpdate(req.params.id, {$set: {...req.body, ...objForUpdate}})
+            return res.redirect('/admin/courses');
+
     }
 
     slug(title) {
