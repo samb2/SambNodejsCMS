@@ -1,6 +1,4 @@
-const controller = require('app/http/controllers/Controller');
-
-class AdminController extends controller {
+class AdminController {
 
     index(req, res) {
         res.render('admin/index');

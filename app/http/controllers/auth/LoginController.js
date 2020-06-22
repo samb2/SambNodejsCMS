@@ -14,52 +14,41 @@ class LoginController extends controller {
     }
 
     async loginProcess(req, res, next) {
-        try {
-            validator.validateErrorMessage('');
-            // verify recaptcha
-            //await this.recaptchaVerify(req, res);
+        validator.validateErrorMessage('');
+        // verify recaptcha
+        //await this.recaptchaVerify(req, res);
 
-            // check validation
-            let validate = await validator.validate(req);
-            if (validate) { //validation have Error
-                res.render('auth/loginPage', {
-                    captchaError: req.flash('captchaError'),
-                    captcha: this.recaptcha.render()
-                });
-            } else { //validation is OK
-                this.login(req, res, next);
-            }
-        } catch (err) {
-            res.statusCode(500);
-            next(err);
+        // check validation
+        let validate = await validator.validate(req);
+        if (validate) { //validation have Error
+            res.render('auth/loginPage', {
+                captchaError: req.flash('captchaError'),
+                captcha: this.recaptcha.render()
+            });
+        } else { //validation is OK
+            this.login(req, res, next);
         }
 
 
     }
 
     login(req, res, next) {
-        try {
-            passport.authenticate('local.login', (err, user) => {
-                if (!user) {
-                    messages.login.error = 'username or Password is incorrect';
-                    return res.render('auth/loginPage', {
-                        captchaError: req.flash('captchaError'),
-                        captcha: this.recaptcha.render()
-                    });
-                }
-
-                req.logIn(user, err => {
-                    if (req.body.remember) {
-                        user.setRememberToken(res);
-                    }
-                    return res.redirect('/');
+        passport.authenticate('local.login', (err, user) => {
+            if (!user) {
+                messages.login.error = 'username or Password is incorrect';
+                return res.render('auth/loginPage', {
+                    captchaError: req.flash('captchaError'),
+                    captcha: this.recaptcha.render()
                 });
-            })(req, res, next);
-        } catch (err) {
-            console.log('sambbbbbbbbbbbbb' , err);
-            res.statusCode(500);
-            next(err);
-        }
+            }
+
+            req.logIn(user, err => {
+                if (req.body.remember) {
+                    user.setRememberToken(res);
+                }
+                return res.redirect('/');
+            });
+        })(req, res, next);
     }
 
 }
