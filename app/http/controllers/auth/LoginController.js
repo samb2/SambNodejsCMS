@@ -9,14 +9,14 @@ class LoginController extends controller {
 
         res.render('auth/loginPage', {
             captchaError: req.flash('captchaError'),
-            //captcha: this.recaptcha.render()
+            captcha: this.recaptcha.render()
         });
     }
 
     async loginProcess(req, res, next) {
         validator.validateErrorMessage('');
         // verify recaptcha
-        //await this.recaptchaVerify(req, res);
+        await this.recaptchaVerify(req, res);
 
         // check validation
         let validate = await validator.validate(req);

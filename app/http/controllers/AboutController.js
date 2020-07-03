@@ -1,6 +1,6 @@
 const controller = require('app/http/controllers/Controller');
 
-class AboutController extends controller{
+class AboutController extends controller {
 
     index(req, res) {
         res.render('about');

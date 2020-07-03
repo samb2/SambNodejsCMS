@@ -1,10 +1,15 @@
 const controller = require('app/http/controllers/Controller');
-class HomeController extends controller{
+const User = require('app/models/user');
+const Course = require('app/models/course');
 
-    index(req, res) {
+class HomeController extends controller {
 
+    async index(req, res) {
+
+        //let user = await Course.findById('5ed57b6337e39382d4892cba').populate('episodes user').exec();
+        //console.log(user.user.email);
         res.render('index');
-        //res.json(req.user);
+        //return res.json(user);
     }
 
 }

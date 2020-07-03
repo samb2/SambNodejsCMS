@@ -18,7 +18,7 @@ class createCourseValidator extends validatorTest {
                         throw new Error('چنین دوره ای با این عنوان قبلا در سایت قرار داد شده است');
                     }
                 }),
-            check('type', 'Password is required.').not().isEmpty().bail(),
+            check('type', 'type is required.').not().isEmpty().bail(),
             check('body', 'body is required.').not().isEmpty().bail(),
             check('images').custom(async (value) => {
                 if (!value) {

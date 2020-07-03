@@ -1,0 +1,98 @@
+<div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+    <h2>ایجاد ویدیو</h2>
+</div>
+<form class="form-horizontal" action="/admin/episodes/create" method="post">
+
+
+    <div class="form-group row">
+        <div class="col">
+            <label for="title" class="control-label font-weight-bold">عنوان ویدیو</label>
+            <input type="text"
+                   class="form-control <%= checkLoginValid(messages.createEpisode.title) %>"
+                   name="title"
+                   id="title"
+                   placeholder="عنوان را وارد کنید"
+                   value="<%= messages.createEpisode.title.value %>">
+            <div class="invalid-feedback">
+                <%= messages.createEpisode.title.error %>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="course" class="control-label font-weight-bold font-weight-bold">دوره مربوطه</label>
+            <select name="course" id="course" class="form-control">
+                <% courses.forEach(course => { %>
+                    <option value="<%= course._id %>" <%= messages.createEpisode.course.value == String(course._id) ? 'selected' : '' %> ><%= course.title %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="col">
+            <label for="time" class="control-label font-weight-bold">زمان ویدیو</label>
+            <input type="text"
+                   class="form-control <%= checkLoginValid(messages.createEpisode.time) %>"
+                   name="time"
+                   id="time"
+                   value="<%= messages.createEpisode.time.value %>"
+                   placeholder="زمان را وارد کنید">
+            <div class="invalid-feedback">
+                <%= messages.createEpisode.time.error %>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="videoUrl" class="control-label font-weight-bold">لینک ویدیو</label>
+            <input style="direction: ltr"
+                   type="text"
+                   class="form-control <%= checkLoginValid(messages.createEpisode.videoUrl) %>"
+                   name="videoUrl"
+                   id="videoUrl"
+                   value="<%= messages.createEpisode.videoUrl.value %>"
+                   placeholder="لینک را وارد کنید">
+            <div class="invalid-feedback">
+                <%= messages.createEpisode.videoUrl.error %>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="body" class="control-label font-weight-bold">متن</label>
+            <textarea rows="5"
+                      class="form-control <%= checkLoginValid(messages.createEpisode.body) %>"
+                      name="body"
+                      id="body"
+                      placeholder="متن مقاله را وارد کنید"><%= messages.createEpisode.body.value %></textarea>
+            <div class="invalid-feedback">
+                <%= messages.createEpisode.body.error %>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <label for="type" class="control-label font-weight-bold font-weight-bold">نوع دوره</label>
+            <select name="type" id="type" class="form-control">
+                <option value="vip" <%= messages.createCourse.type.value == 'vip' ? 'selected' : '' %>>اعضای ویژه</option>
+                <option value="cash" <%= messages.createCourse.type.value == 'cash' ? 'selected' : '' %>>نقدی</option>
+                <option value="free" <%= messages.createCourse.type.value == 'free' ? 'selected' : '' %>>رایگان</option>
+            </select>
+        </div>
+        <div class="col">
+            <label for="number" class="control-label font-weight-bold">شماره جلسه</label>
+            <input type="text"
+                   class="form-control <%= checkLoginValid(messages.createEpisode.number) %>"
+                   name="number"
+                   id="number"
+                   value="<%= messages.createEpisode.number.value %>"
+                   placeholder="شماره جلسه را وارد کنید">
+            <div class="invalid-feedback">
+                <%= messages.createEpisode.number.error %>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col">
+            <button type="submit" class="btn btn-danger">ارسال</button>
+        </div>
+    </div>
+</form>
