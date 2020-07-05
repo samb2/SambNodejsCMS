@@ -33,18 +33,19 @@
             <a class="btn btn-sm btn-light mr-2" href="panel">Panel</a>
             <a class="btn btn-sm btn-danger" href="/logout">Exit</a>
         <% } else { %>
-            <a class="btn btn-sm btn-outline-light mr-2" href="login">Login</a>
-            <a class="btn btn-sm btn-outline-success" href="register">Sign up</a>
+            <a class="btn btn-sm btn-outline-light mr-2" href="/login">Login</a>
+            <a class="btn btn-sm btn-outline-success" href="/register">Sign up</a>
         <% } %>
     </div>
 </nav>
 
-<div class="container mt-4">
+<div class="container mt-4" style="text-align: right; direction: rtl">
     <%- body %>
 </div>
 
 
 <script src="/javascript/jquery-3.4.1.min.js"></script>
 <script src="/javascript/bootstrap.min.js"></script>
+<%- script %>
 </body>
 </html>

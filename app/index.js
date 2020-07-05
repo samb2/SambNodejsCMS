@@ -10,12 +10,21 @@ const passport = require('passport');
 const helpers = require('./helpers');
 const methodOverride = require('method-override');
 const rememberLogin = require('app/http/middleware/rememberLogin');
+const notifier = require('node-notifier');
+const path = require('path');
 
 module.exports = class Application {
 
     constructor() {
         this.setupExpress();
-        this.setupMongoDB().then(() => console.log("connecting to MongoDB Successfully!!!"));
+        this.setupMongoDB().then(() => {
+            console.log("connecting to MongoDB Successfully!!!");
+            // notifier.notify({
+            //     title: 'SambNodejsCMS',
+            //     message: 'connecting to MongoDB Successfully!!!',
+            //     icon: path.join(__dirname, 'node.jpg'),
+            // });
+        });
         this.setConfig();
         this.setRouters();
     }

@@ -1,6 +1,6 @@
 //Multer is a node.js middleware for handling multipart/form-data, which is primarily used for uploading files
 const multer = require('multer');
-//Create a new directory and any necessary subdirectories at di
+//Create a new directory and any necessary subdirectories at dir
 const mkdirp = require('mkdirp');
 
 const fs = require('fs');
@@ -11,12 +11,25 @@ const ImageStorage = multer.diskStorage({
     //The folder to which the file has been saved
     destination: (req, file, cb) => {
         let dir = getDirImage();
-        mkdirp(dir, cb(null, dir));
+
+        // fs.mkdir(dir, {recursive: true}, (err) => {
+        // });
+        //     if (err) throw err;
+        if (!fs.existsSync(dir)) {
+            fs.mkdir(dir, {recursive: true}, (err) => {
+            });
+        }
+        setTimeout(hello, 1500);
+
+        function hello() {
+            mkdirp(dir, cb(null, dir));
+        }
+
     },
     //The name of the file within the destination
     filename: (req, file, cb) => {
         let filePath = getDirImage() + '/' + file.originalname;
-        if (!fs.existsSync(filePath)) { // file doesn't Exist
+        if (!fs.existsSync(filePath)) {// file doesn't Exist
             cb(null, file.originalname);
         } else { // file Exist in uploads Folder
             cb(null, Date.now() + '-' + file.originalname);

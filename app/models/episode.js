@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mongoosePaginate = require('mongoose-paginate');
+const bcrypt = require('bcrypt');
 
 const episodeSchema = Schema({
     course: {type: Schema.Types.ObjectId, ref: 'Course'},
@@ -28,8 +29,25 @@ episodeSchema.methods.typeToPersian = function () {
     }
 };
 
-episodeSchema.methods.download = function () {
-    return "#";
+episodeSchema.methods.download = function (check, canUserUse) {
+    if (!check) return '#';
+
+    let status = false;
+    if (this.type === 'free') {
+        status = true;
+    } else if (this.type === 'vip' || this.type === 'cash') {
+        status = canUserUse
+    }
+
+    let timestamps = new Date().getTime() + 3600 * 1000 * 12;
+
+    let text = `aQTR@!#Fa#%!@%SDQGGASDF${this.id}${timestamps}`
+
+    let salt = bcrypt.genSaltSync(15);
+    let hash = bcrypt.hashSync(text, salt);
+
+
+    return status ? `/download/${this.id}?mac=${hash}&t=${timestamps}` : '#';
 };
 
 module.exports = mongoose.model('Episode', episodeSchema);

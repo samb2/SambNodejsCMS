@@ -51,7 +51,7 @@ userSchema.methods.isVip = function () {
 };
 
 userSchema.methods.checkLearning = async function (course) {
-    return false;
+    return true;
 };
 
 

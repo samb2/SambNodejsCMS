@@ -69,7 +69,7 @@ class episodeController extends controller {
 
     async update(req, res, next) {
         try {
-            let status = await this.validationData(req);
+            let status = await validator.validate(req);
             if (!status) return this.back(req, res);
 
 

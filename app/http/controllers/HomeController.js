@@ -1,6 +1,7 @@
 const controller = require('app/http/controllers/Controller');
 const User = require('app/models/user');
 const Course = require('app/models/course');
+const Comment = require('app/models/comment');
 
 class HomeController extends controller {
 
@@ -10,6 +11,22 @@ class HomeController extends controller {
         //console.log(user.user.email);
         res.render('index');
         //return res.json(user);
+    }
+
+    async comment(req, res, next) {
+        try {
+
+            let newComment = new Comment({
+                user: req.user.id,
+                ...req.body
+            });
+
+            await newComment.save();
+
+            return this.back(req, res);
+        } catch (err) {
+            next(err);
+        }
     }
 
 }

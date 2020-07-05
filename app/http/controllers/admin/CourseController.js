@@ -84,7 +84,7 @@ class courseController extends controller {
     }
 
     //delete course
-    async destroy(req, res) {
+    async destroy(req, res, next) {
         try {
             //find course by id in request params : /courses/:id
             let course = await Course.findById(req.params.id);
